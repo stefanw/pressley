@@ -41,11 +41,15 @@ class Command(BaseCommand):
             source_name = source.organization
             body = get_link_content(link)
 
-            (release, created) = Release.objects.get_or_create(url=link,
-                                                               title=title,
-                                                               date=date,
-                                                               body=body,
-                                                               source=source)
+            try:
+                release = Release.objects.get(url=link)
+                continue
+            except Release.DoesNotExist:
+                release = Release.objects.create(url=link,
+                                               title=title,
+                                               date=date,
+                                               body=body,
+                                               source=source)
             if body is None or len(body.strip()) == 0:
                 continue
 
