@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 class Release(models.Model):
 
@@ -15,3 +14,5 @@ class Release(models.Model):
         unique_together = ('url', 'title', 'date', 'body', 'source')
         ordering = ['-date', 'source']
 
+    def __unicode__(self):
+        return u'%s (%s)' % (self.title, self.source)
